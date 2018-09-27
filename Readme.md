@@ -1,3 +1,62 @@
+# 예제 코드
+
+[Sample Code](https://www.filehelpers.net/examples/)
+
+```c#
+[DelimitedRecord("|")]
+public class DelimitedData
+{
+    public int Id;
+
+    public string Name;
+
+    public decimal Balance;
+
+    [FieldConverter(ConverterKind.Date, "dd-MM-yyyy")]
+    public DateTime AddedDate;
+}
+
+[FixedLengthRecord()]
+public class FixedData
+{
+    [FieldFixedLength(5)]
+    public int Id;
+
+    [FieldFixedLength(20)]
+    [FieldTrim(TrimMode.Left)]
+    public string Name;
+
+    [FieldFixedLength(8)]
+    public decimal Balance;
+
+    [FieldFixedLength(8)]
+    [FieldConverter(ConverterKind.Date, "ddMMyyyy")]
+    public DateTime AddedDate;
+}
+```
+
+```c#
+var user = new FileHelperEngine<DelimitedData>();
+var result = user.ReadFile("delimited.txt");
+foreach (DelimitedData d in result)
+{
+    string fmt = $"[{d.Id}] {d.Name} : {d.Balance} : {d.AddedDate}";
+    listBox.Items.Add(fmt);
+}
+
+
+var user = new FileHelperEngine<FixedData>();
+var result = user.ReadFile("fixed.txt");
+foreach (FixedData d in result)
+{
+    string fmt = $"[{d.Id}] {d.Name} : {d.Balance} : {d.AddedDate}";
+    listBox.Items.Add(fmt);
+}
+```
+
+
+
+
 # FileHelpers [![Join the chat at https://gitter.im/MarcosMeli/FileHelpers](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/MarcosMeli/FileHelpers?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 <a href="https://www.filehelpers.net"><img src="http://www.filehelpers.net/images/homepage.jpg"  /></a>
